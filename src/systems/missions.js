@@ -1,4 +1,5 @@
 import { formatDistance } from "../engine/math.js";
+import { Sfx } from "../engine/audio.js";
 
 export class MissionSystem {
   constructor(THREE, scene, city, story) {
@@ -23,7 +24,7 @@ export class MissionSystem {
         target: city.locations.terminal,
         radius: 7,
         type: "interact",
-        prompt: "Breach seed vault",
+        prompt: "[E] Breach seed vault",
         message: "The seed vault is ready. Start the handshake at the relay core."
       },
       {
@@ -139,6 +140,7 @@ export class MissionSystem {
 
   advance(enemies) {
     this.index = Math.min(this.objectives.length - 1, this.index + 1);
+    Sfx.confirm();
     const objective = this.objectives[this.index];
     this.log(objective.message);
     this.handleStart(objective, enemies);

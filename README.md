@@ -1,6 +1,8 @@
 # Neon Solaris: Dawnline
 
-Neon Solaris: Dawnline is a playable browser FPS vertical slice set in a neon solarpunk megacity. It includes switchable weapons, a grenade launcher, wall running, ground and flying traffic, drivable vehicles, flying cars, enemy archetypes with behavior trees, procedural high-resolution city textures, and a complete mission loop.
+Neon Solaris: Dawnline is a playable browser FPS set in a neon solarpunk megacity. It includes switchable weapons, a grenade launcher, wall running, ground and flying traffic, drivable vehicles, flying cars, enemy archetypes with behavior trees, procedural high-resolution city textures, UnrealBloom neon post-processing, a procedural WebAudio soundscape, and a complete mission loop.
+
+**Play it live:** https://alchemydynamics.github.io/neon-solaris-fps/
 
 ## Run
 
@@ -49,8 +51,10 @@ If you have npm available, `npm start` also runs the same server.
   - Sniper: keeps range and fires rail shots.
   - Turret: defends anti-air sites.
 - Behavior-tree AI implementation in `src/engine/behaviorTree.js`.
+- UnrealBloom post-processing for the neon glow.
+- Procedural WebAudio sound: weapon fire, explosions, hits, engine hum, ambient synth pad.
 - Mission storyline: Operation Dawnline.
 
-## Repository Status
+## Deployment
 
-The local git repository is initialized and committed as part of project setup. GitHub remote creation requires either the GitHub CLI (`gh`) or a token-backed API flow; neither is bundled in the project.
+Pushes to `main` deploy automatically to GitHub Pages via `.github/workflows/pages.yml`.

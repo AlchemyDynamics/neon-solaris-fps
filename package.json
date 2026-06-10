@@ -6,7 +6,7 @@
   "description": "A browser-based cyberpunk solarpunk FPS vertical slice built with Three.js.",
   "scripts": {
     "start": "node scripts/serve.mjs",
-    "check": "node --check src/main.js && node --check src/engine/input.js && node --check src/engine/math.js && node --check src/engine/behaviorTree.js && node --check src/world/textures.js && node --check src/world/city.js && node --check src/systems/player.js && node --check src/systems/weapons.js && node --check src/systems/effects.js && node --check src/systems/enemies.js && node --check src/systems/traffic.js && node --check src/systems/vehicles.js && node --check src/systems/missions.js && node --check scripts/serve.mjs"
+    "check": "node --check src/main.js && node --check src/engine/input.js && node --check src/engine/math.js && node --check src/engine/behaviorTree.js && node --check src/engine/audio.js && node --check src/world/textures.js && node --check src/world/city.js && node --check src/systems/player.js && node --check src/systems/weapons.js && node --check src/systems/effects.js && node --check src/systems/enemies.js && node --check src/systems/traffic.js && node --check src/systems/vehicles.js && node --check src/systems/missions.js && node --check scripts/serve.mjs"
   },
   "keywords": [
     "threejs",

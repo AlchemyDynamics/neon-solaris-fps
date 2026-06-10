@@ -1,4 +1,5 @@
 import { clamp, raySphere } from "../engine/math.js";
+import { Sfx } from "../engine/audio.js";
 
 const WEAPON_DATA = [
   {
@@ -130,6 +131,7 @@ export class WeaponSystem {
     weapon.ammo -= 1;
     weapon.cooldown = 1 / weapon.fireRate;
     this.kick = weapon.projectile ? 0.65 : 0.32;
+    Sfx.shoot(weapon.shortName);
 
     if (weapon.projectile) {
       this.launchGrenade(weapon, effects);
@@ -256,6 +258,7 @@ export class WeaponSystem {
 
   explode(projectile, enemies, effects, player, time) {
     effects.spawnExplosion(projectile.position, projectile.radius, projectile.color);
+    Sfx.explosion();
     for (const enemy of enemies.alive) {
       const distance = enemy.getAimPoint().distanceTo(projectile.position);
       if (distance > projectile.radius) continue;
@@ -273,6 +276,7 @@ export class WeaponSystem {
   reload(weapon) {
     if (weapon.reloadRemaining > 0 || weapon.reserve <= 0 || weapon.ammo >= weapon.magSize) return;
     weapon.reloadRemaining = weapon.reloadTime;
+    Sfx.reload();
   }
 
   finishReload(weapon) {

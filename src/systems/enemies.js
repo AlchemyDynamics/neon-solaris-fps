@@ -1,5 +1,6 @@
 import { Action, Condition, Selector, Sequence, Status } from "../engine/behaviorTree.js";
 import { clamp, distanceXZ, rand, wrapAngle } from "../engine/math.js";
+import { Sfx } from "../engine/audio.js";
 
 const TYPE_DATA = {
   sentinel: {
@@ -418,6 +419,7 @@ class Enemy {
     if (!this.alive) return;
     this.alive = false;
     this.velocity.set(0, 0, 0);
+    Sfx.enemyDie();
     effects.spawnBurst(this.getAimPoint(), this.data.color, this.type === "brute" ? 34 : 18, 8);
   }
 

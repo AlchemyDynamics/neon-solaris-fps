@@ -1,5 +1,6 @@
 import { clamp, distanceXZ, forwardFromYaw, rightFromYaw, wrapAngle } from "../engine/math.js";
 import { createVehicleMesh } from "./traffic.js";
+import { Sfx } from "../engine/audio.js";
 
 export class VehicleSystem {
   constructor(THREE, scene, city) {
@@ -53,9 +54,11 @@ export class VehicleSystem {
         vehicle.mesh.position.copy(vehicle.position);
         vehicle.mesh.rotation.y = vehicle.yaw;
       }
+      Sfx.engineStop();
       return;
     }
 
+    Sfx.engine(Math.abs(this.active.speed) / 48, this.active.type === "skimmer");
     player.updateLook(input);
     if (this.active.type === "skimmer") this.updateSkimmer(dt, input);
     else this.updateGround(dt, input);
@@ -140,9 +143,9 @@ export class VehicleSystem {
   }
 
   getPrompt(player) {
-    if (this.active) return `Exit ${this.active.name}`;
+    if (this.active) return `[F] Exit ${this.active.name}`;
     const nearest = this.findNearest(player.position);
-    if (nearest && nearest.distance < 7) return `Enter ${nearest.vehicle.name}`;
+    if (nearest && nearest.distance < 7) return `[F] Enter ${nearest.vehicle.name}`;
     return "";
   }
 

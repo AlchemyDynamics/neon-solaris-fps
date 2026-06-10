@@ -1,6 +1,11 @@
 import * as THREE from "three";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { Input } from "./engine/input.js";
 import { clamp } from "./engine/math.js";
+import { Sfx } from "./engine/audio.js";
 import { createTextures } from "./world/textures.js";
 import { City } from "./world/city.js";
 import { Player } from "./systems/player.js";
@@ -45,6 +50,17 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(74, window.innerWidth / window.innerHeight, 0.08, 900);
 scene.add(camera);
 
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloomPass = new UnrealBloomPass(
+  new THREE.Vector2(window.innerWidth, window.innerHeight),
+  0.78,
+  0.46,
+  0.6
+);
+composer.addPass(bloomPass);
+composer.addPass(new OutputPass());
+
 const textures = createTextures(THREE);
 const city = new City(THREE, scene, textures);
 const player = new Player(THREE, city.locations.spawn);
@@ -67,8 +83,29 @@ buildMissionProgress();
 buildWeaponBar();
 renderHUD(0);
 
+const bootLog = document.querySelector("#bootLog");
+const bootLines = [
+  "> sunwell uplink ........ OK",
+  "> district 7 mesh ....... OK",
+  "> weapon sync ........... OK",
+  "> dawnline handshake .... READY"
+];
+startButton.disabled = true;
+let bootIndex = 0;
+const bootTimer = setInterval(() => {
+  if (bootLog) bootLog.textContent += (bootIndex ? "\n" : "") + bootLines[bootIndex];
+  bootIndex += 1;
+  if (bootIndex >= bootLines.length) {
+    clearInterval(bootTimer);
+    startButton.disabled = false;
+  }
+}, 1080);
+
 startButton.addEventListener("click", () => {
+  if (startButton.disabled) return;
   started = true;
+  Sfx.init();
+  Sfx.confirm();
   boot.classList.add("is-hidden");
   input.lock();
 });
@@ -81,6 +118,7 @@ window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  composer.setSize(window.innerWidth, window.innerHeight);
 });
 
 requestAnimationFrame(loop);
@@ -106,7 +144,7 @@ function loop(now) {
   last = now;
 
   update(dt, time);
-  renderer.render(scene, camera);
+  composer.render();
   input.endFrame();
 }
 

@@ -82,6 +82,25 @@ h1 {
     0 0 4px rgba(255, 58, 216, 0.85);
 }
 
+.boot__log {
+  min-height: 96px;
+  margin: 30px auto 0;
+  width: min(86vw, 340px);
+  color: #5fd9a8;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  letter-spacing: 0.08em;
+  text-align: left;
+  white-space: pre-line;
+}
+
+#startButton[disabled] {
+  opacity: 0.32;
+  cursor: wait;
+  filter: saturate(0.4);
+}
+
 #startButton {
   margin-top: 38px;
   min-width: 172px;

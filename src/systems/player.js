@@ -5,6 +5,7 @@ import {
   nearestPointOnBoxXZ,
   rightFromYaw
 } from "../engine/math.js";
+import { Sfx } from "../engine/audio.js";
 
 const tempForward = { x: 0, y: 0, z: 0 };
 const tempRight = { x: 0, y: 0, z: 0 };
@@ -250,6 +251,7 @@ export class Player {
     if (this.dead) return;
     this.lastDamageAt = time;
     this.damageFlash = 1;
+    Sfx.hit();
     const shieldHit = Math.min(this.shield, amount);
     this.shield -= shieldHit;
     this.health -= amount - shieldHit;
