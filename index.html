@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neon Solaris: Dawnline</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.165.0/build/three.module.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="boot" class="boot">
+      <div class="boot__panel">
+        <p class="boot__kicker">Arcology District 7</p>
+        <h1>Neon Solaris</h1>
+        <p class="boot__subtitle">Dawnline</p>
+        <button id="startButton" type="button">Deploy</button>
+      </div>
+    </div>
+
+    <div id="reticle" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <main id="hud" class="hud" aria-live="polite">
+      <section class="panel status">
+        <div class="brand">Dawnline</div>
+        <div class="meter">
+          <span>Health</span>
+          <i id="healthFill"></i>
+        </div>
+        <div class="meter shield">
+          <span>Shield</span>
+          <i id="shieldFill"></i>
+        </div>
+        <div class="readout">
+          <strong id="weaponName">Ion Pistol</strong>
+          <span id="ammoReadout">12 / 36</span>
+        </div>
+      </section>
+
+      <section class="panel mission">
+        <p id="missionTitle">Operation Dawnline</p>
+        <h2 id="objectiveText">Reach the Dawnline relay.</h2>
+        <div id="missionProgress" class="mission__progress"></div>
+      </section>
+
+      <canvas id="miniMap" class="minimap" width="180" height="180"></canvas>
+
+      <section id="weaponBar" class="weapon-bar"></section>
+      <section id="messageLog" class="message-log"></section>
+      <div id="prompt" class="prompt"></div>
+      <div id="damageVignette" class="damage-vignette"></div>
+    </main>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
