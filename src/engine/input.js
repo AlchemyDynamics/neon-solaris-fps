@@ -25,9 +25,15 @@ export class Input {
     });
 
     window.addEventListener("mousedown", (event) => {
+      if (document.pointerLockElement !== this.target) {
+        // Only grab pointer lock for clicks on the game canvas itself, and do
+        // not register the lock-acquiring click as game input (prevents the
+        // boot screen from swallowing the cursor and firing on re-lock).
+        if (event.target === this.target) this.lock();
+        return;
+      }
       if (!this.mouseButtons.has(event.button)) this.mousePressed.add(event.button);
       this.mouseButtons.add(event.button);
-      if (document.pointerLockElement !== this.target) this.lock();
     });
 
     window.addEventListener("mouseup", (event) => {
@@ -50,9 +56,25 @@ export class Input {
       this.mouseDelta.y += event.movementY;
     });
 
+    window.addEventListener("contextmenu", (event) => {
+      // Right mouse button is the aim modifier; keep the browser menu away.
+      if (this.pointerLocked || event.target === this.target) event.preventDefault();
+    });
+
+    window.addEventListener("blur", () => this.releaseAll());
+
     document.addEventListener("pointerlockchange", () => {
       this.pointerLocked = document.pointerLockElement === this.target;
+      // Keys released while unfocused/unlocked never emit keyup; drop held state.
+      if (!this.pointerLocked) this.releaseAll();
     });
+  }
+
+  releaseAll() {
+    this.keys.clear();
+    this.mouseButtons.clear();
+    this.mouseDelta.x = 0;
+    this.mouseDelta.y = 0;
   }
 
   lock() {

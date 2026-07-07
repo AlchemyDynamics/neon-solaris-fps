@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
-import { extname, join, normalize, resolve } from "node:path";
+import { extname, join, normalize, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
@@ -21,7 +21,7 @@ const mime = {
 function safePath(url) {
   const pathname = decodeURIComponent(new URL(url, `http://localhost:${port}`).pathname);
   const target = normalize(join(root, pathname === "/" ? "index.html" : pathname));
-  if (!target.startsWith(root)) return null;
+  if (target !== root && !target.startsWith(root + sep)) return null;
   return target;
 }
 
